@@ -1,0 +1,5 @@
+@mixin fontSettings($font-size) {
+  font-family: 'Cutive Mono', monospace;
+  font-style: normal;
+  font-size: $font-size;
+}
