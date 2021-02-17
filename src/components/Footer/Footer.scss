@@ -1,19 +1,40 @@
 @import "../../assets/scss/variables";
 @import "../../assets/scss/mixins";
 
-footer {
-  flex: 0 0 auto;
-  margin: 0 auto;
-  width: 500px;
-  text-align: center;
+.footer {
+  background-color: lightgray;
 
-  background-color: $color-white;
+  & .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
 
-  & p {
-    color: $color-brown;
-  };
+    & img {
+      width: 80px;
+    }
 
-  & img {
-    width: 10%;
+    & ul li a {
+      text-decoration: none;
+      color: $color-black;
+
+      svg path {
+        fill: $color-black;
+      }
+
+      svg {
+        margin-left: 5px;
+      }
+
+      &:hover {
+        color: $color-beige;
+        svg path {
+          fill: $color-beige;
+        }
+      }
+    }
+
   }
 }
+

@@ -1,6 +1,8 @@
 @import "../../assets/scss/variables";
 @import "../../assets/scss/mixins";
 
-section {
-  background-color: grey;
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

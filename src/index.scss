@@ -2,21 +2,18 @@
 @import "./assets/scss/variables";
 @import "./assets/scss/mixins";
 
-html,
 body {
-  height: 100%;
   font-family: 'Cutive Mono', monospace;
-
-  background: url("./assets/img/background.png") center no-repeat;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
+* {
+  transition: 0.3s ease-in;
 }
 
-.content {
-  flex: 1 0 auto;
+.container {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  box-sizing: border-box;
 }
-

@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.scss';
 
 import Header from "../Header/Header";
+import Content from "../Content/Content";
 import Footer from "../Footer/Footer";
 
-export default class App extends Component {
-    render() {
-        return (
-            <section>
-                <Header />
-                <Footer />
-            </section>
-        )
-    }
+export default function App() {
+    return (
+        <div className="wrapper">
+            <Header />
+            <Content />
+            <Footer />
+        </div>
+    )
 }

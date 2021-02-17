@@ -1,0 +1,11 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.content {
+  flex-grow: 1;
+  background-color: lightgoldenrodyellow;
+
+  & .container {
+    padding: 0 10px;
+  }
+}
