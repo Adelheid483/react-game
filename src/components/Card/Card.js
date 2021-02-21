@@ -1,20 +1,18 @@
 import React from 'react';
 import './Card.scss';
-import backImg from "../../assets/img/question.png";
 
-export default function Card({id, width, height, back, front, flipped, handleClick}) {
+export default function Card(props) {
     return (
         <div
-            className={`flip-container ${flipped ? 'flipped' : ''}`}
-            style={{width, height}}
-            onClick={handleClick}>
+            className={`card ${props.selected ? 'selected' : ''}`}
+            onClick={()=> props.disabled ? null : props.handleClick(props.id)}
+        >
 
-            <div className="flipper">
+            <div className='card-item'>
                 <img
-                    src={flipped ? front : back}
-                    style={{height, width}}
-                    className={flipped ? 'front' : 'back'}
-                    alt=""
+                    className={props.selected ? 'card-item-front' : 'card-item-back'}
+                    src={props.selected || props.matched ? `/img/${props.name}.png` : '/img/question.png'}
+                    alt={props.name}
                 />
             </div>
 

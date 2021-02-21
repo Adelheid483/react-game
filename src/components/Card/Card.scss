@@ -1,2 +1,50 @@
 @import "../../assets/scss/variables";
 @import "../../assets/scss/mixins";
+
+.card {
+  perspective: 1000px;
+  margin: 2px 5px;
+  cursor: pointer;
+
+  &.selected .card-item {
+    transform: rotateY(180deg);
+  }
+}
+
+.card-item,
+.card-item-front,
+.card-item-back {
+  width: 100px;
+  height: 100px;
+
+  @media (max-width: 500px) {
+    width: 80px;
+    height: 80px;
+  }
+
+  @media (max-height: 768px) {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.card-item {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: .2s ease-in;
+}
+
+.card-item-front,
+.card-item-back {
+  backface-visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.card-item-front {
+  transform: rotateY(180deg);
+}
+.card-item-back {
+  z-index: 2;
+}

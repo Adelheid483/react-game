@@ -6,11 +6,11 @@ import Content from "../Content/Content";
 import Footer from "../Footer/Footer";
 
 export default function App() {
-    return (
-        <div className="wrapper">
-            <Header />
-            <Content />
-            <Footer />
-        </div>
-    )
+  return (
+    <div className="wrapper">
+      <Header/>
+      <Content/>
+      <Footer/>
+    </div>
+  )
 }
