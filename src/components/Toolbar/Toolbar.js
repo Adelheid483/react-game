@@ -3,7 +3,14 @@ import './Toolbar.scss'
 
 const Toolbar = (props) => (
   <div className="toolbar">
-    Toolbar
+
+    <button onClick={() => props.startGame(props.size)}>New Game</button>
+
+    <div className="toolbar-info">
+      <span>Score: {props.score}</span>
+      <span>Win: {props.win}</span>
+    </div>
+
   </div>
 );
 

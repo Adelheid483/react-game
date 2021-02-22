@@ -1,22 +1,104 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Content.scss';
 
 import Game from "../Game/Game";
 import Toolbar from '../Toolbar/Toolbar'
+import {cardsArray} from "../Card/cardsArray";
 
-export default function Content(props) {
+export default function Content() {
+
+  const [size, setSize] = useState(2);
+  const [cards, setCards] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [matched, setMatched] = useState([]);
+  const [disabled, setDisabled] = useState(false);
+  const [score, setScore] = useState(0);
+  const [win, setWin] = useState(0);
+
+  useEffect(() => {checkWins()}, [win]);
+
+  function createCards(size) {
+    setWin(() => {return 0});
+    const sizedArray = cardsArray
+      .sort(() => 0.5 - Math.random())
+      .slice(0, size);
+    const gameArray = sizedArray
+      .concat(sizedArray)
+      .sort(() => 0.5 - Math.random());
+    return gameArray.map((card, index) => {
+      return {
+        name: card.name,
+        id: index
+      }
+    });
+  }
+
+  function handleClick(id) {
+    setDisabled(true);
+    if (selected.length === 0) {
+      setSelected([id]);
+      setDisabled(false);
+    } else {
+      if (selected.includes(id)) return;
+      setSelected([selected[0], id]);
+      if (isMatch(id)) {
+        setMatched([...matched, selected[0], id]);
+        resetGuesses();
+      } else {
+        setTimeout(resetGuesses, 1000);
+      }
+    }
+  }
+
+  function isMatch(id) {
+    const firstCard = cards.find((card) => card.id === id);
+    const secondCard = cards.find((card) => selected[0] === card.id);
+
+    if (secondCard.name === firstCard.name) {
+      setScore((score) => score + 10);
+      setWin((win) => win + 1);
+      checkWins();
+    } else {
+      if (score > 0) {
+        setScore(prev => prev - 2);
+      }
+    }
+    return secondCard.name === firstCard.name;
+  }
+
+  function checkWins() {
+    if (win === size) {
+      setSize((size) => size + 2);
+      setTimeout(() => startGame(size), 1500)
+    }
+  }
+
+  function resetGuesses() {
+    setSelected([]);
+    setDisabled(false);
+  }
+
+  function startGame(size) {
+    setMatched([]);
+    setCards(createCards(size));
+  }
 
   return (
     <section className="content">
       <div className="container">
-        <Game
-          cards={props.cards}
-          handleClick={props.handleClick}
-          selected={props.selected}
-          matched={props.matched}
-          disabled={props.disabled}
+        <Toolbar
+          startGame={startGame}
+          score={score}
+          win={win}
+          size={size}
         />
-        <Toolbar />
+        <Game
+          cards={cards}
+          handleClick={handleClick}
+          selected={selected}
+          matched={matched}
+          disabled={disabled}
+        />
       </div>
     </section>
   )

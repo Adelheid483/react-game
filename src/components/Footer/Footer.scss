@@ -2,7 +2,8 @@
 @import "../../assets/scss/mixins";
 
 .footer {
-  background-color: lightgray;
+  background-color: $color-grey-light;
+  padding: 10px 0;
 
   & .container {
     display: flex;

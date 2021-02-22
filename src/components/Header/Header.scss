@@ -2,8 +2,9 @@
 @import "../../assets/scss/mixins";
 
 .header {
-  background-color: lightgray;
+  background-color: $color-grey-light;
   color: $color-yellow;
+  padding: 20px 0;
 
   & .container {
     display: flex;
@@ -13,8 +14,7 @@
     padding: 0 10px;
 
     & h1 {
-      @include fontSettings(24px);
-      font-weight: bold;
+      @include fontSettings(32px, bold);
     }
 
     & ul {
@@ -23,7 +23,7 @@
 
       & li:hover {
         cursor: pointer;
-        color: $color-grey;
+        color: $color-black;
       }
 
       & li:first-of-type {

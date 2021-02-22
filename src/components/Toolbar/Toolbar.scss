@@ -1,3 +1,53 @@
 @import "../../assets/scss/variables";
 @import "../../assets/scss/mixins";
 
+.toolbar {
+  width: 480px;
+  margin: 20px auto 0;
+  padding: 10px 0;
+  background-color: $color-white;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+
+  & button {
+    border: none;
+    border-radius: 20px;
+    background-color: $color-red;
+    color: $color-black;
+    @include fontSettings(20px, bold);
+    font-weight: bold;
+    cursor: pointer;
+    padding: 3px 10px;
+
+    &:hover {
+      color: $color-red;
+      background-color: $color-black;
+    }
+  }
+
+  @media (max-width: 500px) {
+    width: 360px;
+  }
+
+  @media (max-height: 768px) {
+    width: 360px;
+  }
+
+  @media (max-width: 320px) {
+    width: 280px;
+  }
+}
+
+.toolbar-info {
+
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+
+  & span {
+    @include fontSettings(16px, bold)
+  }
+}
