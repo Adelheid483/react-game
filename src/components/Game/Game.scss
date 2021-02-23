@@ -2,24 +2,6 @@
 @import "../../assets/scss/mixins";
 
 .memory-game {
-  width: 480px;
-  margin: 20px auto 0;
-  padding: 10px 0;
-  background-color: $color-white;
-  border-radius: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-
-  @media (max-width: 500px) {
-    width: 360px;
-  }
-
-  @media (max-height: 768px) {
-    width: 360px;
-  }
-
-  @media (max-width: 320px) {
-    width: 280px;
-  }
+  @include contentComponent();
+  @include pageContainerMedia();
 }

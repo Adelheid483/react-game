@@ -7,10 +7,13 @@ export default function HotKeys() {
       <div className="container">
         <h1>Hot Keys</h1>
         <hr/>
-        <div className="hot-keys-list">
-          <span>New Game <span className="hot-keys-item">A</span></span>
-          <span>Best score: <span className="hot-keys-item">B</span></span>
-        </div>
+        <ul className="page-list">
+          <li>New Game: <span className="page-list-item">A</span></li>
+          <li>Statistics: <span className="page-list-item">B</span></li>
+          <li>Hot Keys: <span className="page-list-item">B</span></li>
+          <li>RS school: <span className="page-list-item">B</span></li>
+          <li>My Github: <span className="page-list-item">B</span></li>
+        </ul>
       </div>
     </section>
   )
