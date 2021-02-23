@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import {cardsArray} from "../Card/cardsArray";
 import './Content.scss';
 
 import Game from "../Game/Game";
 import Toolbar from '../Toolbar/Toolbar'
-import {cardsArray} from "../Card/cardsArray";
 
 export default function Content() {
 
@@ -110,7 +110,7 @@ export default function Content() {
       }, 1500)
     }
 
-  }
+  };
 
   function resetGuesses() {
     setSelected([]);

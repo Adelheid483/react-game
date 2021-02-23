@@ -1,0 +1,34 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.statistics {
+  flex-grow: 1;
+  background-color: $color-green-light;
+  padding: 10px 0;
+
+  & .container {
+    width: 480px;
+    padding: 10px;
+    background-color: $color-white;
+    border-radius: 20px;
+    position: absolute;
+    left:0;
+    right:0;
+    margin: 0 auto;
+    top: 50%;
+    transform:translate(0, -50%);
+
+    @media (max-width: 500px) {
+      width: 360px;
+    }
+
+    @media (max-height: 768px) {
+      width: 360px;
+    }
+
+    @media (max-width: 320px) {
+      width: 280px;
+    }
+  }
+}
+

@@ -12,22 +12,6 @@
   justify-content: space-evenly;
   align-items: center;
 
-  & button {
-    border: none;
-    border-radius: 20px;
-    background-color: $color-red;
-    color: $color-black;
-    @include fontSettings(20px, bold);
-    font-weight: bold;
-    cursor: pointer;
-    padding: 3px 10px;
-
-    &:hover {
-      color: $color-red;
-      background-color: $color-black;
-    }
-  }
-
   @media (max-width: 500px) {
     width: 360px;
   }
@@ -38,6 +22,33 @@
 
   @media (max-width: 320px) {
     width: 280px;
+  }
+}
+
+.toolbar-btn {
+  display: flex;
+  flex-direction: column;
+
+  & button {
+    border: none;
+    border-radius: 20px;
+    background-color: $color-red;
+    color: $color-black;
+    @include fontSettings(20px, bold);
+    font-weight: bold;
+    cursor: pointer;
+    padding: 3px 10px;
+    margin-bottom: 5px;
+
+    @media (max-width: 500px) {
+      @include fontSettings(16px, bold);
+      padding: 2px 8px;
+    }
+
+    &:hover {
+      color: $color-red;
+      background-color: $color-black;
+    }
   }
 }
 

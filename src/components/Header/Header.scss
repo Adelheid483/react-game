@@ -6,6 +6,16 @@
   color: $color-yellow;
   padding: 20px 0;
 
+  & a {
+    text-decoration: none;
+    color: $color-yellow;
+  }
+
+  & a:hover {
+    cursor: pointer;
+    color: $color-black;
+  }
+
   & .container {
     display: flex;
     flex-direction: row;
@@ -25,13 +35,8 @@
       display: flex;
       flex-direction: row;
 
-      & li:hover {
-        cursor: pointer;
-        color: $color-black;
-      }
-
       & li:first-of-type {
-        margin-right: 10px;
+        margin-right: 15px;
       }
 
       @media (max-width: 500px) {

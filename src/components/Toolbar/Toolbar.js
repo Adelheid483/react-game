@@ -6,15 +6,18 @@ export default function Toolbar(props) {
   return (
     <div className="toolbar">
 
-      <button onClick={() => {
-        props.startGame(props.size);
-        props.zeroingScore();
-        props.stopTimer();
-        props.resetTimer();
-        props.startTimer();
-      }}>
-        New Game
-      </button>
+      <div  className="toolbar-btn">
+        <button onClick={() => {
+          props.startGame(props.size);
+          props.zeroingScore();
+          props.stopTimer();
+          props.resetTimer();
+          props.startTimer();
+        }}>
+          New Game
+        </button>
+        <button>Sound</button>
+      </div>
 
       <div className="toolbar-info">
         <span>Score: {props.score}</span>
