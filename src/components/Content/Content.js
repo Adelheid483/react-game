@@ -14,8 +14,26 @@ export default function Content() {
   const [disabled, setDisabled] = useState(false);
   const [score, setScore] = useState(0);
   const [win, setWin] = useState(0);
+  const [time, setTime] = useState(0);
+  const [timeOn, setTimeOn] = useState(false);
 
   useEffect(() => {checkWins()}, [win]);
+
+  // useEffect(() => {changeSize()}, []);
+
+  useEffect(() => {preloadImg()}, [cards]);
+
+  useEffect(() => {
+    let interval = null;
+    if (timeOn) {
+      interval = setInterval(() => {
+        setTime((prev) => prev + 10);
+      }, 10);
+    } else if (!timeOn) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [timeOn]);
 
   function createCards(size) {
     setWin(() => {return 0});
@@ -33,13 +51,19 @@ export default function Content() {
     });
   }
 
+  function preloadImg() {
+    cards.map((card) => {
+      return new Image().src = `/img/${card.name}.png`
+    });
+  }
+
   function handleClick(id) {
     setDisabled(true);
     if (selected.length === 0) {
       setSelected([id]);
       setDisabled(false);
     } else {
-      if (selected.includes(id)) return;
+      if (doubleClicked(id)) return;
       setSelected([selected[0], id]);
       if (isMatch(id)) {
         setMatched([...matched, selected[0], id]);
@@ -50,10 +74,13 @@ export default function Content() {
     }
   }
 
+  function doubleClicked(id) {
+    selected.includes(id)
+  }
+
   function isMatch(id) {
     const firstCard = cards.find((card) => card.id === id);
     const secondCard = cards.find((card) => selected[0] === card.id);
-
     if (secondCard.name === firstCard.name) {
       setScore((score) => score + 10);
       setWin((win) => win + 1);
@@ -66,11 +93,23 @@ export default function Content() {
     return secondCard.name === firstCard.name;
   }
 
-  function checkWins() {
+  const checkWins = () => {
+
+    if (win === cardsArray.length) {
+      alert('finish game');
+      stopTimer();
+    }
+
     if (win === size) {
       setSize((size) => size + 2);
-      setTimeout(() => startGame(size), 1500)
+      setTimeout(() => {
+        startGame(size);
+        stopTimer();
+        resetTimer();
+        startTimer();
+      }, 1500)
     }
+
   }
 
   function resetGuesses() {
@@ -78,19 +117,32 @@ export default function Content() {
     setDisabled(false);
   }
 
+  function zeroingScore() {setScore(() => {return 0})}
+
   function startGame(size) {
     setMatched([]);
     setCards(createCards(size));
   }
+
+  function startTimer() {setTimeOn(true)}
+
+  function stopTimer() {setTimeOn(false)}
+
+  function resetTimer() {setTime(() => {return 0})}
 
   return (
     <section className="content">
       <div className="container">
         <Toolbar
           startGame={startGame}
+          zeroingScore={zeroingScore}
+          stopTimer={stopTimer}
+          resetTimer={resetTimer}
+          startTimer={startTimer}
           score={score}
           win={win}
           size={size}
+          time={time}
         />
         <Game
           cards={cards}

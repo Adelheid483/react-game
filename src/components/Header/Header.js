@@ -9,6 +9,7 @@ export default function Header() {
         <ul>
           <li>Statistics</li>
           <li>Sound</li>
+          <li>Hot Keys</li>
         </ul>
       </div>
     </header>
