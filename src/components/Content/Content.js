@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {cardsArray} from "../Card/cardsArray";
 import './Content.scss';
 
@@ -7,7 +7,7 @@ import Toolbar from '../Toolbar/Toolbar'
 
 export default function Content() {
 
-  const [size, setSize] = useState(2);
+  const [size, setSize] = useState(4);
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
@@ -16,10 +16,10 @@ export default function Content() {
   const [win, setWin] = useState(0);
   const [time, setTime] = useState(0);
   const [timeOn, setTimeOn] = useState(false);
+  const refSize = useRef(size);
+  const refWin = useRef(win);
 
   useEffect(() => {checkWins()}, [win]);
-
-  // useEffect(() => {changeSize()}, []);
 
   useEffect(() => {preloadImg()}, [cards]);
 
@@ -36,7 +36,7 @@ export default function Content() {
   }, [timeOn]);
 
   function createCards(size) {
-    setWin(() => {return 0});
+    refWin.current = 0;
     const sizedArray = cardsArray
       .sort(() => 0.5 - Math.random())
       .slice(0, size);
@@ -83,7 +83,7 @@ export default function Content() {
     const secondCard = cards.find((card) => selected[0] === card.id);
     if (secondCard.name === firstCard.name) {
       setScore((score) => score + 10);
-      setWin((win) => win + 1);
+      refWin.current++;
       checkWins();
     } else {
       if (score > 0) {
@@ -93,24 +93,22 @@ export default function Content() {
     return secondCard.name === firstCard.name;
   }
 
-  const checkWins = () => {
-
-    if (win === cardsArray.length) {
-      alert('finish game');
-      stopTimer();
+  function checkWins() {
+    if (refWin.current === cardsArray.length) {
+      deleteGame();
+      console.log('finish');
     }
-
-    if (win === size) {
-      setSize((size) => size + 2);
+    if (refWin.current === refSize.current) {
+      setSize((size) => size + 4);
+      refSize.current += 4;
       setTimeout(() => {
-        startGame(size);
+        startGame(refSize.current);
         stopTimer();
         resetTimer();
         startTimer();
       }, 1500)
     }
-
-  };
+  }
 
   function resetGuesses() {
     setSelected([]);
@@ -122,6 +120,11 @@ export default function Content() {
   function startGame(size) {
     setMatched([]);
     setCards(createCards(size));
+  }
+
+  function deleteGame() {
+    stopTimer();
+    setCards([]);
   }
 
   function startTimer() {setTimeOn(true)}
@@ -140,7 +143,7 @@ export default function Content() {
           resetTimer={resetTimer}
           startTimer={startTimer}
           score={score}
-          win={win}
+          win={refWin.current}
           size={size}
           time={time}
         />

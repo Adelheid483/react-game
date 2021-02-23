@@ -5,10 +5,12 @@ export default function Statistics() {
   return (
     <section className="statistics">
       <div className="container">
-        <ul>
-          <li>score</li>
-          <li>time</li>
-        </ul>
+        <h1>Statistics</h1>
+        <hr/>
+        <div className="statistics-list">
+          <span>Last score: <span className="statistics-item">{10}</span></span>
+          <span>Best score: <span className="statistics-item">{20}</span></span>
+        </div>
       </div>
     </section>
   )

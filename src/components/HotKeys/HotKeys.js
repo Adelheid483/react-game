@@ -5,12 +5,12 @@ export default function HotKeys() {
   return (
     <section className="hot-keys">
       <div className="container">
-        <ul>
-          <li>1 - one</li>
-          <li>1 - one</li>
-          <li>1 - one</li>
-          <li>1 - one</li>
-        </ul>
+        <h1>Hot Keys</h1>
+        <hr/>
+        <div className="hot-keys-list">
+          <span>New Game <span className="hot-keys-item">A</span></span>
+          <span>Best score: <span className="hot-keys-item">B</span></span>
+        </div>
       </div>
     </section>
   )
