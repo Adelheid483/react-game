@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './Footer.scss';
 import Modal from "../Modal/Modal";
 
-export default function Footer() {
+export default function Footer(props) {
 
   const [modalActive, setModalActive] = useState();
 
@@ -12,7 +12,10 @@ export default function Footer() {
         <a href="https://rs.school/" target="_blank">
           <img src="/img/rs-school-logo.svg" alt="rs-logo"/>
         </a>
-        <button onClick={() => setModalActive(true)}>Rules</button>
+        <div>
+          <button onClick={() => setModalActive(true)}>Rules</button>
+          <button onClick={props.handleFS.enter} title='F11'><i className="fas fa-expand-arrows-alt"></i></button>
+        </div>
         <ul>
           <li>
             <a href="https://github.com/Adelheid483" target="_blank"> Adelheid483

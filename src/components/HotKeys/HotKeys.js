@@ -13,6 +13,7 @@ export default function HotKeys() {
           <li>Hot Keys: <span className="page-list-item">B</span></li>
           <li>RS school: <span className="page-list-item">B</span></li>
           <li>My Github: <span className="page-list-item">B</span></li>
+          <li>Fullscreen: <span className="page-list-item">F11</span></li>
         </ul>
       </div>
     </section>
