@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Footer.scss';
+import Modal from "../Modal/Modal";
 
 export default function Footer() {
+
+  const [modalActive, setModalActive] = useState();
+
   return (
     <footer className="footer">
       <div className="container">
         <a href="https://rs.school/" target="_blank">
           <img src="/img/rs-school-logo.svg" alt="rs-logo"/>
         </a>
+        <button onClick={() => setModalActive(true)}>Rules</button>
         <ul>
           <li>
             <a href="https://github.com/Adelheid483" target="_blank"> Adelheid483
@@ -20,6 +25,16 @@ export default function Footer() {
           </li>
           <li>2021</li>
         </ul>
+        <Modal active={modalActive} setActive={setModalActive}>
+          <div className="game-rules">
+            <h1>Memory Game</h1>
+            <hr/>
+            <strong>Description:</strong>
+            <p>The memory game is a basic matching game to test the player's memory. In a deck of paired cards, the player needs to match each pair to win the game</p>
+            <strong>Rules:</strong>
+            <p>You should turn flipping pairs of cards over. On each move, you will first turn one card over, then a second. If the two cards match, your scores points, the two cards are removed from the game. If cards do not match, you are lost points and the cards are turned back over. Good luck!</p>
+          </div>
+        </Modal>
       </div>
     </footer>
   )

@@ -16,6 +16,28 @@
   font-weight: bold;
 }
 
+@mixin buttons($back-color, $font-color) {
+  border: none;
+  border-radius: 20px;
+  background-color: $back-color;
+  color: $font-color;
+  @include fontSettings(20px, bold);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 3px 10px;
+  margin-bottom: 5px;
+
+  @media (max-width: 500px) {
+    @include fontSettings(16px, bold);
+    padding: 2px 8px;
+  }
+
+  &:hover {
+    color: $back-color;
+    background-color: $font-color;
+  }
+}
+
 @mixin pageContainer() {
   width: 480px;
   padding: 10px;

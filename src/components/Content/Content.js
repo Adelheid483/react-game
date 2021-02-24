@@ -7,7 +7,7 @@ import Toolbar from '../Toolbar/Toolbar'
 
 export default function Content() {
 
-  const [size, setSize] = useState(4);
+  const [size, setSize] = useState(1);  // ----------------- start 4
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
@@ -74,9 +74,7 @@ export default function Content() {
     }
   }
 
-  function doubleClicked(id) {
-    selected.includes(id)
-  }
+  function doubleClicked(id) {selected.includes(id)}
 
   function isMatch(id) {
     const firstCard = cards.find((card) => card.id === id);
@@ -94,19 +92,19 @@ export default function Content() {
   }
 
   function checkWins() {
-    if (refWin.current === cardsArray.length) {
-      deleteGame();
-      console.log('finish');
-    }
     if (refWin.current === refSize.current) {
-      setSize((size) => size + 4);
-      refSize.current += 4;
-      setTimeout(() => {
-        startGame(refSize.current);
-        stopTimer();
-        resetTimer();
-        startTimer();
-      }, 1500)
+      if (refWin.current === 3) { // ----------------- cardsArray.length
+        destroyGame();
+      } else {
+        setSize((size) => size + 1); // ----------------- count +4
+        refSize.current += 1;             // ----------------- count +4
+        setTimeout(() => {
+          startGame(refSize.current);
+          stopTimer();
+          resetTimer();
+          startTimer();
+        }, 1500)
+      }
     }
   }
 
@@ -122,9 +120,10 @@ export default function Content() {
     setCards(createCards(size));
   }
 
-  function deleteGame() {
+  function destroyGame() {
     stopTimer();
-    setCards([]);
+    console.log(size, win, score+10, time, 'finish');
+    // showModal();
   }
 
   function startTimer() {setTimeOn(true)}

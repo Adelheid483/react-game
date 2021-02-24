@@ -16,6 +16,10 @@
       width: 80px;
     }
 
+    & button {
+      @include buttons($color-grey, $color-beige)
+    }
+
     & ul li a {
       text-decoration: none;
       color: $color-black;
@@ -37,6 +41,23 @@
       }
     }
 
+  }
+}
+
+.game-rules {
+  display: flex;
+  flex-direction: column;
+
+  & h1 {
+    @include pageTitles();
+  }
+
+  & strong {
+    @include fontSettings(16px, bold);
+  }
+
+  & p:first-of-type {
+    margin-bottom: 20px;
   }
 }
 
