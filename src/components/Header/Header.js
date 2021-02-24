@@ -11,7 +11,7 @@ export default function Header(props) {
         </h1>
         <ul>
           <li><NavLink to="/statistics" title="Alt+S">Statistics</NavLink></li>
-          <li><NavLink to="/hotKeys" title="Alt+H">Hot Keys</NavLink></li>
+          <li><NavLink to="/hotKeys" title="Alt+H">HotKeys</NavLink></li>
           {/*<li><NavLink to="/settings" title="Alt+A">Settings</NavLink></li>*/}
         </ul>
       </div>

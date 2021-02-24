@@ -3,22 +3,13 @@ import './Toolbar.scss'
 
 import Timer from "../Timer/Timer";
 
-export default function Toolbar({startGame, zeroingScore, stopTimer, resetTimer, startTimer, level, size, score, win, time}) {
+export default function Toolbar({newGame, level, score, win, time}) {
 
   return (
     <div className="toolbar">
 
       <div className="toolbar-btn">
-        <button onClick={() => {
-          startGame(size); // !!!!!!!!!!!!!!!!----------------------
-          zeroingScore();
-          stopTimer();
-          resetTimer();
-          startTimer();
-        }}>
-          New Game
-        </button>
-        <button>Sound</button>
+        <button onClick={() => newGame()}>New Game</button>
       </div>
 
       <div className="toolbar-info">

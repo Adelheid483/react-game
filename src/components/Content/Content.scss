@@ -14,5 +14,9 @@
     margin: 0 auto;
     top:50%;
     transform:translate(0, -50%);
+
+    @media (max-height: 930px) {
+      width: 480px;
+    }
   }
 }
