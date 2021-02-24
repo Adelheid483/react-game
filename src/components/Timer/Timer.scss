@@ -1,0 +1,6 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.timer {
+  @include fontSettings(16px, bold)
+}

@@ -43,21 +43,3 @@
 
   }
 }
-
-.game-rules {
-  display: flex;
-  flex-direction: column;
-
-  & h1 {
-    @include pageTitles();
-  }
-
-  & strong {
-    @include fontSettings(16px, bold);
-  }
-
-  & p:first-of-type {
-    margin-bottom: 20px;
-  }
-}
-

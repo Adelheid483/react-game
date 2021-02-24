@@ -23,4 +23,26 @@ body {
   box-sizing: border-box;
 }
 
+.game-rules {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 
+  & h1 {
+    @include pageTitles();
+  }
+
+  & strong {
+    @include fontSettings(16px, bold);
+    margin-bottom: 10px;
+  }
+
+  & p:first-of-type {
+    margin-bottom: 20px;
+  }
+
+  & button {
+    @include buttons($color-red, $color-black);
+    width: 120px;
+  }
+}

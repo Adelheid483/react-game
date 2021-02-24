@@ -4,18 +4,22 @@ import './Content.scss';
 
 import Game from "../Game/Game";
 import Toolbar from '../Toolbar/Toolbar'
+import Modal from "../Modal/Modal";
+import Timer from "../Timer/Timer";
 
 export default function Content() {
 
-  const [size, setSize] = useState(1);  // ----------------- start 4
+  const [size, setSize] = useState(1);  // ----------------- должно быть  start 4
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [score, setScore] = useState(0);
   const [win, setWin] = useState(0);
+  const [level, setLevel] = useState(1);
   const [time, setTime] = useState(0);
   const [timeOn, setTimeOn] = useState(false);
+  const [modalActive, setModalActive] = useState();
   const refSize = useRef(size);
   const refWin = useRef(win);
 
@@ -93,16 +97,14 @@ export default function Content() {
 
   function checkWins() {
     if (refWin.current === refSize.current) {
-      if (refWin.current === 3) { // ----------------- cardsArray.length
-        destroyGame();
+      if (refWin.current === 3) { // ----------------- должно быть cardsArray.length
+        endGame();
       } else {
-        setSize((size) => size + 1); // ----------------- count +4
-        refSize.current += 1;             // ----------------- count +4
+        setSize((size) => size + 1); // ----------------- должно быть  count +4
+        refSize.current += 1;             // ----------------- должно быть  count +4
+        setLevel((level) => level + 1);
         setTimeout(() => {
           startGame(refSize.current);
-          stopTimer();
-          resetTimer();
-          startTimer();
         }, 1500)
       }
     }
@@ -113,17 +115,20 @@ export default function Content() {
     setDisabled(false);
   }
 
-  function zeroingScore() {setScore(() => {return 0})}
+  function zeroingScore() {
+    setScore(() => {return 0});
+    setLevel(() => {return 1});
+  }
 
   function startGame(size) {
     setMatched([]);
     setCards(createCards(size));
   }
 
-  function destroyGame() {
+  function endGame() {
     stopTimer();
-    console.log(size, win, score+10, time, 'finish');
-    // showModal();
+    // setSize(() => {return 1}); //!!!!!!!!!!!!!!!!!-----------------------------
+    setModalActive(true);
   }
 
   function startTimer() {setTimeOn(true)}
@@ -138,11 +143,13 @@ export default function Content() {
         <Toolbar
           startGame={startGame}
           zeroingScore={zeroingScore}
+          startTimer={startTimer}
           stopTimer={stopTimer}
           resetTimer={resetTimer}
-          startTimer={startTimer}
+          setSize={setSize} //!!!!!!!!!!!!!!!!!-----------------------------
           score={score}
           win={refWin.current}
+          level={level}
           size={size}
           time={time}
         />
@@ -154,6 +161,23 @@ export default function Content() {
           disabled={disabled}
         />
       </div>
+      <Modal active={modalActive} setActive={setModalActive}>
+        <div className="game-rules">
+          <h1>Congrats!</h1>
+          <strong>Total score: {score}</strong>
+          <strong>Total time: <Timer time={time}/> </strong>
+          <button onClick={() => {
+            startGame(setSize(() => {return 1})); // !!!!!!!!!!!!!!!!!!----------------------
+            zeroingScore();
+            stopTimer();
+            resetTimer();
+            startTimer();
+            setModalActive(false);
+          }}>
+            New Game
+          </button>
+        </div>
+      </Modal>
     </section>
   )
 }

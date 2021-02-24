@@ -23,6 +23,10 @@
   text-align: right;
 
   & span {
-    @include fontSettings(16px, bold)
+     @include fontSettings(16px, bold)
+  }
+
+  & .level {
+    color: $color-red;
   }
 }

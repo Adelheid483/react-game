@@ -1,18 +1,20 @@
 import React from 'react'
 import './Toolbar.scss'
 
-export default function Toolbar(props) {
+import Timer from "../Timer/Timer";
+
+export default function Toolbar({startGame, zeroingScore, stopTimer, resetTimer, startTimer, level, size, score, win, time}) {
 
   return (
     <div className="toolbar">
 
-      <div  className="toolbar-btn">
+      <div className="toolbar-btn">
         <button onClick={() => {
-          props.startGame(props.size);
-          props.zeroingScore();
-          props.stopTimer();
-          props.resetTimer();
-          props.startTimer();
+          startGame(size); // !!!!!!!!!!!!!!!!----------------------
+          zeroingScore();
+          stopTimer();
+          resetTimer();
+          startTimer();
         }}>
           New Game
         </button>
@@ -20,14 +22,12 @@ export default function Toolbar(props) {
       </div>
 
       <div className="toolbar-info">
-        <span>Score: {props.score}</span>
-        <span>Win: {props.win}</span>
-        <div>
-          <span>{("0" + Math.floor((props.time / 60000) % 60)).slice(-2)}:</span>
-          <span>{("0" + Math.floor((props.time / 1000) % 60)).slice(-2)}</span>
-        </div>
+        <span className="level">Level: {level}</span>
+        <span>Score: {score}</span>
+        <span>Win: {win}</span>
+        <Timer time={time}/>
       </div>
 
     </div>
-  )
+  );
 };
