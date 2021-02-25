@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {ThemeContext} from "../../components/App/App";
 import './HotKeys.scss';
 
 export default function HotKeys() {
+
+  const darkTheme = useContext(ThemeContext);
+  const themeStyles = {
+    backgroundColor: darkTheme ? '#b1d6da' : '#012B35',
+  };
+
   return (
-    <section className="hot-keys">
+    <section className="hot-keys" style={themeStyles}>
       <div className="container">
         <h1>Hot Keys</h1>
         <hr/>

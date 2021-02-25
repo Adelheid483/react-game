@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import './Header.scss';
 
-export default function Header(props) {
+export default function Header() {
   return (
     <header className="header">
       <div className="container">
@@ -12,7 +12,7 @@ export default function Header(props) {
         <ul>
           <li><NavLink to="/statistics" title="Alt+S">Statistics</NavLink></li>
           <li><NavLink to="/hotKeys" title="Alt+H">HotKeys</NavLink></li>
-          {/*<li><NavLink to="/settings" title="Alt+A">Settings</NavLink></li>*/}
+          <li><NavLink to="/settings" title="Alt+A">Settings</NavLink></li>
         </ul>
       </div>
     </header>

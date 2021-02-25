@@ -48,7 +48,3 @@ export const cardsArray = [
     'img': 'img/turtle.png',
   },
 ];
-
-
-// const cards = ['apple', 'ball', 'bee', 'compass', 'elephant', 'four', 'flower',
-//     'leaf', 'music', 'sneakers', 'star', 'turtle']

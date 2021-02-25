@@ -3,8 +3,9 @@
 
 .toolbar {
   @include contentComponent();
-  margin-bottom: 20px;
   @include pageContainerMedia();
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .toolbar-btn {

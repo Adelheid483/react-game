@@ -32,9 +32,18 @@ export default function Footer(props) {
           <div className="game-rules">
             <h1>Memory Game</h1>
             <strong>Description:</strong>
-            <p>The memory game is a basic matching game to test the player's memory. In a deck of paired cards, the player needs to match each pair to win the game</p>
+            <p>
+              The memory game is a basic matching game to test the player's memory.
+              In a deck of paired cards, the player needs to match each pair to win the game.
+            </p>
             <strong>Rules:</strong>
-            <p>You should turn flipping pairs of cards over. On each move, you will first turn one card over, then a second. If the two cards match, your scores points, the two cards are removed from the game. If cards do not match, you are lost points and the cards are turned back over. Good luck!</p>
+            <p>
+              The game consists of three levels, the transition is automatic.
+              You should turn flipping pairs of cards over.
+              On each move, you will first turn one card over, then a second.
+              If the two cards match, your scores 10 points. If cards do not match, you are lost 2 points and the cards are turned back over.
+              Good luck!
+            </p>
           </div>
         </Modal>
       </div>

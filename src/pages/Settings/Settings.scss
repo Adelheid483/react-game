@@ -1,0 +1,46 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.settings {
+  flex-grow: 1;
+  background-color: $color-green-light;
+  padding: 10px 0;
+
+  & .container {
+    @include pageContainer();
+    @include pageContainerMedia();
+  }
+
+  & h1 {
+    @include pageTitles();
+  }
+
+  & .theme-btn {
+    @include buttons($color-red, $color-black);
+    margin-bottom: 10px;
+  }
+}
+
+.audio-settings {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto 10px;
+  @include fontSettings(20px, bold);
+
+  & button {
+    border: none;
+    background-color: transparent;
+    color: $color-red;
+    cursor: pointer;
+
+    & i {
+     font-size: 20px;
+    }
+
+    &:hover {
+      color: $color-grey;
+    }
+  }
+}

@@ -1,15 +1,17 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {cardsArray} from "../Card/cardsArray";
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import {cardsArray} from "../../assets/datas/cardsArray";
+import {audioArray} from "../../assets/datas/audioArray";
+import {ThemeContext} from "../../components/App/App";
 import './Content.scss';
 
-import Game from "../Game/Game";
-import Toolbar from '../Toolbar/Toolbar'
-import Modal from "../Modal/Modal";
-import Timer from "../Timer/Timer";
+import Game from "../../components/Game/Game";
+import Toolbar from '../../components/Toolbar/Toolbar'
+import Modal from "../../components/Modal/Modal";
+import Timer from "../../components/Timer/Timer";
 
 export default function Content() {
 
-  const [size, setSize] = useState(4);  // init size
+  const [size, setSize] = useState(2);  // init size
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
@@ -80,12 +82,16 @@ export default function Content() {
 
   function doubleClicked(id) {selected.includes(id)}
 
+  function resetGuesses() {
+    setSelected([]);
+    setDisabled(false);
+  }
+
   function isMatch(id) {
     const firstCard = cards.find((card) => card.id === id);
     const secondCard = cards.find((card) => selected[0] === card.id);
     if (secondCard.name === firstCard.name) {
-      setScore((score) => score + 10);
-      refWin.current++;
+      correctAnswer();
       checkWins();
     } else {
       if (score > 0) {
@@ -95,22 +101,32 @@ export default function Content() {
     return secondCard.name === firstCard.name;
   }
 
+  function correctAnswer() {
+    setScore((score) => score + 10);
+    refWin.current++;
+    const audio = audioArray.find((item) => item.label === "Correct");
+    const audioCorrect = new Audio(audio.src);
+    audioCorrect.play();
+  }
+
   function checkWins() {
     if (refWin.current === refSize.current) {
-      if (refWin.current === 3) {
-        endGame();
+      if (refWin.current === 4) { // init size
+        setTimeout(() => {endGame()}, 1000);
       } else {
-        setLevel((level) => level + 1);
-        setSize((size) => size + 4);
-        refSize.current += 4;
+        setTimeout(() => {levelUp()}, 1000);
         setTimeout(() => {startGame(refSize.current)}, 1000)
       }
     }
   }
 
-  function resetGuesses() {
-    setSelected([]);
-    setDisabled(false);
+  function levelUp() {
+    setLevel((level) => level + 1);
+    setSize((size) => size + 1); // init size
+    refSize.current += 1; // init size
+    const audio = audioArray.find((item) => item.label === "LevelUp");
+    const audioLevel = new Audio(audio.src);
+    audioLevel.play();
   }
 
   function startGame(size) {
@@ -121,13 +137,16 @@ export default function Content() {
   function endGame() {
     stopTimer();
     toggleModal(true);
+    const audio = audioArray.find((item) => item.label === "GameEnd");
+    const audioGameEnd = new Audio(audio.src);
+    audioGameEnd.play();
   }
 
   function newGame() {
     setScore(() => {return 0});
     setLevel(() => {return 1});
     refWin.current = 0;
-    refSize.current = 4; // init size
+    refSize.current = 2; // init size
     startGame(refSize.current);
     stopTimer();
     resetTimer();
@@ -139,11 +158,17 @@ export default function Content() {
   function resetTimer() {setTime(() => {return 0})}
   function toggleModal(bool) {setModalActive(bool)}
 
+  const darkTheme = useContext(ThemeContext);
+  const themeStyles = {
+    backgroundColor: darkTheme ? '#b1d6da' : '#012B35',
+  };
+
   return (
-    <section className="content">
+    <section className="content" style={themeStyles}>
       <div className="container">
         <Toolbar
           newGame={newGame}
+          endGame={endGame}
           level={level}
           score={score}
           win={refWin.current}

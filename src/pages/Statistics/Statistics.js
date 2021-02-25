@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {ThemeContext} from "../../components/App/App";
 import './Statistics.scss';
 
 export default function Statistics(props) {
+
+  const darkTheme = useContext(ThemeContext);
+  const themeStyles = {
+    backgroundColor: darkTheme ? '#b1d6da' : '#012B35',
+  };
+
   return (
-    <section className="statistics">
+    <section className="statistics" style={themeStyles}>
       <div className="container">
         <h1>Statistics</h1>
         <hr/>
