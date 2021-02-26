@@ -3,6 +3,7 @@ import {cardsArray} from "../../assets/datas/cardsArray";
 import {audioArray} from "../../assets/datas/audioArray";
 import {ThemeContext} from "../../components/App/App";
 import {getTheme} from "../../assets/datas/themes";
+import hotkeys from "hotkeys-js";
 import './Content.scss';
 
 import Game from "../../components/Game/Game";
@@ -23,6 +24,7 @@ export default function Content() {
   const [time, setTime] = useState(0);
   const [timeOn, setTimeOn] = useState(false);
   const [modalActive, setModalActive] = useState();
+  const [gameActive, setGameActive] = useState(false);
   const refSize = useRef(size);
   const refWin = useRef(win);
 
@@ -41,6 +43,24 @@ export default function Content() {
     }
     return () => clearInterval(interval);
   }, [timeOn]);
+
+  useEffect(() => {
+    hotkeys('n,esc', function (event, handler){
+      switch (handler.key) {
+        case 'n':
+          event.preventDefault();
+          event.stopPropagation();
+          newGame();
+          break;
+        case 'esc':
+          event.preventDefault();
+          event.stopPropagation();
+          endGame();
+          break;
+        default: break;
+      }
+    });
+  }, []);
 
   function createCards(size) {
     refWin.current = 0;
@@ -136,14 +156,38 @@ export default function Content() {
   }
 
   function endGame() {
+    console.log('endGame')
+
+    setGameActive(false);
+
+    if (!gameActive) {
+      hotkeys('esc', function (event, handler){
+        switch (handler.key) {
+          case 'esc':
+            event.stopPropagation();
+            break;
+          default: break;
+        }
+      });
+    }
+
     stopTimer();
     toggleModal(true);
+
+    // localstorage
+    localStorage.setItem('totalScore', [score]);
+    localStorage.setItem('totalTime', time);
+
     const audio = audioArray.find((item) => item.label === "GameEnd");
     const audioGameEnd = new Audio(audio.src);
     audioGameEnd.play();
   }
 
   function newGame() {
+    console.log('newGame')
+
+    setGameActive(true);
+
     setScore(() => {return 0});
     setLevel(() => {return 1});
     refWin.current = 0;
