@@ -35,15 +35,12 @@ export default function Content() {
   useEffect(() => {
     let interval = null;
     if (timeOn) {
-      interval = setInterval(() => {
-        setTime((prev) => prev + 10);
-      }, 10);
-    } else if (!timeOn) {
-      clearInterval(interval);
-    }
+      interval = setInterval(() => {setTime((prev) => prev + 10)}, 10);
+    } else if (!timeOn) {clearInterval(interval)}
     return () => clearInterval(interval);
   }, [timeOn]);
 
+  // -----------------------------------------------HOT KEYS PROBLEMS
   useEffect(() => {
     hotkeys('n,esc', function (event, handler){
       switch (handler.key) {
@@ -158,8 +155,8 @@ export default function Content() {
   function endGame() {
     console.log('endGame')
 
+// -----------------------------------------------HOT KEYS PROBLEMS
     setGameActive(false);
-
     if (!gameActive) {
       hotkeys('esc', function (event, handler){
         switch (handler.key) {
@@ -171,12 +168,14 @@ export default function Content() {
       });
     }
 
+    resetGuesses();
     stopTimer();
     toggleModal(true);
 
     // localstorage
-    localStorage.setItem('totalScore', [score]);
-    localStorage.setItem('totalTime', time);
+    localStorage.setItem('lastScore', score);
+    localStorage.setItem('lastTime', time);
+    saveInStorage(score, time);
 
     const audio = audioArray.find((item) => item.label === "GameEnd");
     const audioGameEnd = new Audio(audio.src);
@@ -186,6 +185,7 @@ export default function Content() {
   function newGame() {
     console.log('newGame')
 
+    // -----------------------------------------------HOT KEYS PROBLEMS
     setGameActive(true);
 
     setScore(() => {return 0});
@@ -202,6 +202,18 @@ export default function Content() {
   function stopTimer() {setTimeOn(false)}
   function resetTimer() {setTime(() => {return 0})}
   function toggleModal(bool) {setModalActive(bool)}
+
+  function saveInStorage(newScore, newTime) {
+    if (localStorage.getItem('previousResults') === null) {
+      localStorage.setItem('previousResults', '[]')
+    }
+    let previousResults = JSON.parse(localStorage.getItem('previousResults'));
+    previousResults.push({
+      s: newScore,
+      t: newTime,
+    });
+    localStorage.setItem('previousResults', JSON.stringify(previousResults));
+  }
 
   const darkTheme = useContext(ThemeContext);
   const themeStyles = getTheme(darkTheme);

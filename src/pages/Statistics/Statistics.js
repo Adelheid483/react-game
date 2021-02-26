@@ -5,17 +5,18 @@ import './Statistics.scss';
 import Timer from "../../components/Timer/Timer";
 
 export default function Statistics(props) {
-
   const darkTheme = useContext(ThemeContext);
   const themeStyles = getTheme(darkTheme);
 
-  let lastTime = localStorage.getItem('totalTime');
-  let lastScore = localStorage.getItem('totalScore');
+  let lastScore = localStorage.getItem('lastScore');
+  let lastTime = localStorage.getItem('lastTime');
 
-  const statistics = [];
-  statistics.push(lastScore)
-  statistics.push(23)
-  console.log(statistics)
+  function getScores() {
+    let statistics = JSON.parse(localStorage.getItem('previousResults'));
+    return statistics.slice(-10).reverse();
+  }
+
+  const statistics = getScores();
 
   return (
     <section className="statistics" style={themeStyles}>
@@ -27,9 +28,12 @@ export default function Statistics(props) {
           <li>Total time: <Timer time={lastTime} /></li>
         </ul>
         <ul className="page-list previous-games"> Previous games scores
-          {statistics.map(item => {
+          {statistics.map((item, key) => {
+            key++;
             return (
-              <li>Score: <span className="page-list-item">{item}</span></li>
+              <li key={key}>
+                Game: <span className="page-list-item">{item.s}</span> / <Timer time={item.t} />
+              </li>
             )
           })}
         </ul>
