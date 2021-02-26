@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {Howl} from "howler";
 import {audioArray} from "../../assets/datas/audioArray";
 import {ThemeContext} from "../../components/App/App";
+import {getTheme} from "../../assets/datas/themes";
 import './Settings.scss';
 
 export default function Settings(props) {
@@ -13,9 +14,7 @@ export default function Settings(props) {
   });
 
   const darkTheme = useContext(ThemeContext);
-  const themeStyles = {
-    backgroundColor: darkTheme ? '#b1d6da' : '#012B35',
-  };
+  const themeStyles = getTheme(darkTheme);
 
   return (
     <section className="settings" style={themeStyles}>

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef, useContext} from 'react';
 import {cardsArray} from "../../assets/datas/cardsArray";
 import {audioArray} from "../../assets/datas/audioArray";
 import {ThemeContext} from "../../components/App/App";
+import {getTheme} from "../../assets/datas/themes";
 import './Content.scss';
 
 import Game from "../../components/Game/Game";
@@ -159,9 +160,7 @@ export default function Content() {
   function toggleModal(bool) {setModalActive(bool)}
 
   const darkTheme = useContext(ThemeContext);
-  const themeStyles = {
-    backgroundColor: darkTheme ? '#b1d6da' : '#012B35',
-  };
+  const themeStyles = getTheme(darkTheme);
 
   return (
     <section className="content" style={themeStyles}>

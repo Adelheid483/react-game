@@ -39,6 +39,10 @@
         margin-right: 15px;
       }
 
+      & li a.active {
+        font-weight: bold;
+      }
+
       @media (max-width: 500px) {
         flex-direction: column;
       }

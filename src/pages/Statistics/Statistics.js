@@ -1,13 +1,12 @@
 import React, {useContext} from 'react';
 import {ThemeContext} from "../../components/App/App";
+import {getTheme} from "../../assets/datas/themes";
 import './Statistics.scss';
 
 export default function Statistics(props) {
 
   const darkTheme = useContext(ThemeContext);
-  const themeStyles = {
-    backgroundColor: darkTheme ? '#b1d6da' : '#012B35',
-  };
+  const themeStyles = getTheme(darkTheme);
 
   return (
     <section className="statistics" style={themeStyles}>
