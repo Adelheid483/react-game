@@ -12,10 +12,11 @@ export default function Statistics(props) {
   let lastTime = localStorage.getItem('lastTime');
 
   function getScores() {
-    let statistics = JSON.parse(localStorage.getItem('previousResults'));
-    return statistics.slice(-10).reverse();
+    if (localStorage.getItem('previousResults') !== null) {
+      let statistics = JSON.parse(localStorage.getItem('previousResults'));
+      return statistics.slice(-11, -1).reverse();
+    }
   }
-
   const statistics = getScores();
 
   return (
@@ -32,7 +33,7 @@ export default function Statistics(props) {
             key++;
             return (
               <li key={key}>
-                Game: <span className="page-list-item">{item.s}</span> / <Timer time={item.t} />
+                Game: <span className="page-list-item">{item.s || 0}</span> / <Timer time={item.t || 0} />
               </li>
             )
           })}

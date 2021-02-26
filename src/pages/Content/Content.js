@@ -122,9 +122,7 @@ export default function Content() {
   function correctAnswer() {
     setScore((score) => score + 10);
     refWin.current++;
-    const audio = audioArray.find((item) => item.label === "Correct");
-    const audioCorrect = new Audio(audio.src);
-    audioCorrect.play();
+    playSound('Correct');
   }
 
   function checkWins() {
@@ -142,9 +140,19 @@ export default function Content() {
     setLevel((level) => level + 1);
     setSize((size) => size + 1); // init size
     refSize.current += 1; // init size
-    const audio = audioArray.find((item) => item.label === "LevelUp");
-    const audioLevel = new Audio(audio.src);
-    audioLevel.play();
+    playSound('LevelUp');
+  }
+
+  function saveInStorage(newScore, newTime) {
+    if (localStorage.getItem('previousResults') === null) {
+      localStorage.setItem('previousResults', '[]')
+    }
+    let previousResults = JSON.parse(localStorage.getItem('previousResults'));
+    previousResults.push({
+      s: newScore,
+      t: newTime,
+    });
+    localStorage.setItem('previousResults', JSON.stringify(previousResults));
   }
 
   function startGame(size) {
@@ -153,33 +161,23 @@ export default function Content() {
   }
 
   function endGame() {
+    if (!gameActive) return;
+
     console.log('endGame')
 
 // -----------------------------------------------HOT KEYS PROBLEMS
     setGameActive(false);
-    if (!gameActive) {
-      hotkeys('esc', function (event, handler){
-        switch (handler.key) {
-          case 'esc':
-            event.stopPropagation();
-            break;
-          default: break;
-        }
-      });
-    }
+
 
     resetGuesses();
     stopTimer();
     toggleModal(true);
+    playSound('GameEnd');
 
     // localstorage
     localStorage.setItem('lastScore', score);
     localStorage.setItem('lastTime', time);
     saveInStorage(score, time);
-
-    const audio = audioArray.find((item) => item.label === "GameEnd");
-    const audioGameEnd = new Audio(audio.src);
-    audioGameEnd.play();
   }
 
   function newGame() {
@@ -198,22 +196,16 @@ export default function Content() {
     startTimer();
   }
 
+  function playSound(sound) {
+    const audio = audioArray.find((item) => item.label === `${sound}`);
+    const audioGameEnd = new Audio(audio.src);
+    audioGameEnd.play();
+  }
+
   function startTimer() {setTimeOn(true)}
   function stopTimer() {setTimeOn(false)}
   function resetTimer() {setTime(() => {return 0})}
   function toggleModal(bool) {setModalActive(bool)}
-
-  function saveInStorage(newScore, newTime) {
-    if (localStorage.getItem('previousResults') === null) {
-      localStorage.setItem('previousResults', '[]')
-    }
-    let previousResults = JSON.parse(localStorage.getItem('previousResults'));
-    previousResults.push({
-      s: newScore,
-      t: newTime,
-    });
-    localStorage.setItem('previousResults', JSON.stringify(previousResults));
-  }
 
   const darkTheme = useContext(ThemeContext);
   const themeStyles = getTheme(darkTheme);
