@@ -28,7 +28,7 @@ export default function Statistics(props) {
           <li>Total score: <span className="page-list-item">{lastScore}</span></li>
           <li>Total time: <Timer time={lastTime} /></li>
         </ul>
-        <ul className="page-list previous-games"> Previous games scores
+        <ul className="page-list previous-games"> Previous Games
           {statistics.map((item, key) => {
             key++;
             return (

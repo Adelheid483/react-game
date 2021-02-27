@@ -28,9 +28,35 @@ export default function Content() {
   const refSize = useRef(size);
   const refWin = useRef(win);
 
-  useEffect(() => {checkWins()}, [win]);
 
+  useEffect(() => {getGameStorage()}, []);
+  function getGameStorage() {
+    if (localStorage.getItem('gameStorage') !== null) {
+      let gameStorage = JSON.parse(localStorage.getItem('gameStorage'));
+      setGameActive(gameStorage.gameActive);
+      setSize(gameStorage.size);
+      setCards(gameStorage.cards);
+      setSelected(gameStorage.selected);
+      setMatched(gameStorage.matched);
+      setDisabled(gameStorage.disabled);
+      setScore(gameStorage.score);
+      setWin(gameStorage.win);
+      setLevel(gameStorage.level);
+      setTime(gameStorage.time);
+      setTimeOn(gameStorage.timeOn);
+    }
+  }
+
+  useEffect(() => {
+    window.localStorage.setItem('gameStorage',
+      JSON.stringify({
+        gameActive, size, cards, selected, matched, disabled, score, win, level, time, timeOn
+      }))
+  });
+
+  useEffect(() => {checkWins()}, [win]);
   useEffect(() => {preloadImg()}, [cards]);
+  useEffect(() => {preloadSounds()}, []);
 
   useEffect(() => {
     let interval = null;
@@ -81,6 +107,12 @@ export default function Content() {
     });
   }
 
+  function preloadSounds() {
+    audioArray.map((item) => {
+      return item;
+    });
+  }
+
   function handleClick(id) {
     setDisabled(true);
     if (selected.length === 0) {
@@ -93,7 +125,7 @@ export default function Content() {
         setMatched([...matched, selected[0], id]);
         resetGuesses();
       } else {
-        setTimeout(resetGuesses, 1000);
+        setTimeout(resetGuesses, 800);
       }
     }
   }
@@ -128,10 +160,10 @@ export default function Content() {
   function checkWins() {
     if (refWin.current === refSize.current) {
       if (refWin.current === 4) { // init size
-        setTimeout(() => {endGame()}, 1000);
+        setTimeout(() => {endGame()}, 800);
       } else {
-        setTimeout(() => {levelUp()}, 1000);
-        setTimeout(() => {startGame(refSize.current)}, 1000)
+        setTimeout(() => {levelUp()}, 800);
+        setTimeout(() => {startGame(refSize.current)}, 800)
       }
     }
   }
@@ -169,6 +201,7 @@ export default function Content() {
     setGameActive(false);
 
 
+    setCards([]);
     resetGuesses();
     stopTimer();
     toggleModal(true);
