@@ -4,11 +4,11 @@
 .statistics {
   flex-grow: 1;
   background-color: $color-green-light;
-  padding: 10px 0;
+  padding: 0 10px ;
 
   & .container {
     @include pageContainer();
-    @include pageContainerMedia();
+    //@include pageContainerMedia();
   }
 
   & h1 {

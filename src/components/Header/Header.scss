@@ -4,7 +4,7 @@
 .header {
   background-color: $color-grey-light;
   color: $color-yellow;
-  padding: 20px 0;
+  padding: 12px 0;
 
   & a {
     text-decoration: none;
@@ -36,15 +36,16 @@
       flex-direction: row;
 
       & li {
-        margin-right: 15px;
+        margin-right: 10px;
+        font-size: 24px;
+
+        @media (max-width: 500px) {
+          font-size: 18px;
+        }
       }
 
       & li a.active {
-        font-weight: bold;
-      }
-
-      @media (max-width: 500px) {
-        flex-direction: column;
+        color: $color-black;
       }
     }
   }

@@ -4,7 +4,7 @@ import {getTheme} from "../../assets/datas/themes";
 import './Statistics.scss';
 import Timer from "../../components/Timer/Timer";
 
-export default function Statistics(props) {
+export default function Statistics() {
   const darkTheme = useContext(ThemeContext);
   const themeStyles = getTheme(darkTheme);
 
@@ -12,9 +12,18 @@ export default function Statistics(props) {
   let lastTime = localStorage.getItem('lastTime');
 
   function getScores() {
+    let statistics = new Array(10);
+    statistics.fill({
+      s: 0,
+      t: 0,
+    });
     if (localStorage.getItem('previousResults') !== null) {
-      let statistics = JSON.parse(localStorage.getItem('previousResults'));
-      return statistics.slice(-11, -1).reverse();
+      let localArr = JSON.parse(localStorage.getItem('previousResults'));
+      statistics = statistics.slice(localArr.length, 10);
+      statistics = [...localArr.reverse(), ...statistics];
+      return statistics;
+    } else {
+      return statistics;
     }
   }
   const statistics = getScores();
@@ -33,7 +42,7 @@ export default function Statistics(props) {
             key++;
             return (
               <li key={key}>
-                Game: <span className="page-list-item">{item.s || 0}</span> / <Timer time={item.t || 0} />
+                Game {key}: <span className="page-list-item">{item.s || 0}</span> / <Timer time={item.t || 0} />
               </li>
             )
           })}

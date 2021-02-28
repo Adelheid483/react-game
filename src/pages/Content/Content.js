@@ -13,7 +13,7 @@ import Timer from "../../components/Timer/Timer";
 
 export default function Content() {
 
-  const [size, setSize] = useState(2);  // init size
+  const [size, setSize] = useState(12);  // init size
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
@@ -28,31 +28,30 @@ export default function Content() {
   const refSize = useRef(size);
   const refWin = useRef(win);
 
-
-  useEffect(() => {getGameStorage()}, []);
-  function getGameStorage() {
-    if (localStorage.getItem('gameStorage') !== null) {
-      let gameStorage = JSON.parse(localStorage.getItem('gameStorage'));
-      setGameActive(gameStorage.gameActive);
-      setSize(gameStorage.size);
-      setCards(gameStorage.cards);
-      setSelected(gameStorage.selected);
-      setMatched(gameStorage.matched);
-      setDisabled(gameStorage.disabled);
-      setScore(gameStorage.score);
-      setWin(gameStorage.win);
-      setLevel(gameStorage.level);
-      setTime(gameStorage.time);
-      setTimeOn(gameStorage.timeOn);
-    }
-  }
-
-  useEffect(() => {
-    window.localStorage.setItem('gameStorage',
-      JSON.stringify({
-        gameActive, size, cards, selected, matched, disabled, score, win, level, time, timeOn
-      }))
-  });
+  // useEffect(() => {getGameStorage()}, []);
+  // function getGameStorage() {
+  //   if (localStorage.getItem('gameStorage') !== null) {
+  //     let gameStorage = JSON.parse(localStorage.getItem('gameStorage'));
+  //     setGameActive(() => {return gameStorage.gameActive});
+  //     setSize(() => {return gameStorage.size});
+  //     setCards(() => {return gameStorage.cards});
+  //     setSelected(() => {return gameStorage.selected});
+  //     setMatched(() => {return gameStorage.matched});
+  //     setDisabled(() => {return gameStorage.disabled});
+  //     setScore(() => {return gameStorage.score});
+  //     setWin(() => {return gameStorage.win});
+  //     setLevel(() => {return gameStorage.level});
+  //     setTime(() => {return gameStorage.time});
+  //     setTimeOn(() => {return gameStorage.timeOn});
+  //   }
+  // }
+  //
+  // useEffect(() => {
+  //   window.localStorage.setItem('gameStorage',
+  //     JSON.stringify({
+  //       gameActive, size, cards, selected, matched, disabled, score, win, level, time, timeOn
+  //     }))
+  // });
 
   useEffect(() => {checkWins()}, [win]);
   useEffect(() => {preloadImg()}, [cards]);
@@ -67,7 +66,7 @@ export default function Content() {
   }, [timeOn]);
 
   // -----------------------------------------------HOT KEYS PROBLEMS
-  useEffect(() => {
+/*  useEffect(() => {
     hotkeys('n,esc', function (event, handler){
       switch (handler.key) {
         case 'n':
@@ -83,7 +82,7 @@ export default function Content() {
         default: break;
       }
     });
-  }, []);
+  }, []);*/
 
   function createCards(size) {
     refWin.current = 0;
@@ -119,7 +118,10 @@ export default function Content() {
       setSelected([id]);
       setDisabled(false);
     } else {
-      if (doubleClicked(id)) return;
+      if(selected[0] === id) {
+        setDisabled(false);
+        return;
+      }
       setSelected([selected[0], id]);
       if (isMatch(id)) {
         setMatched([...matched, selected[0], id]);
@@ -129,8 +131,6 @@ export default function Content() {
       }
     }
   }
-
-  function doubleClicked(id) {selected.includes(id)}
 
   function resetGuesses() {
     setSelected([]);
@@ -159,7 +159,7 @@ export default function Content() {
 
   function checkWins() {
     if (refWin.current === refSize.current) {
-      if (refWin.current === 4) { // init size
+      if (refWin.current === 12) { // ---------------------------------------- init size
         setTimeout(() => {endGame()}, 800);
       } else {
         setTimeout(() => {levelUp()}, 800);
@@ -170,8 +170,8 @@ export default function Content() {
 
   function levelUp() {
     setLevel((level) => level + 1);
-    setSize((size) => size + 1); // init size
-    refSize.current += 1; // init size
+    setSize((size) => size + 1); // ---------------------------------------- init size
+    refSize.current += 1; // ---------------------------------------- init size
     playSound('LevelUp');
   }
 
@@ -194,35 +194,23 @@ export default function Content() {
 
   function endGame() {
     if (!gameActive) return;
-
-    console.log('endGame')
-
-// -----------------------------------------------HOT KEYS PROBLEMS
     setGameActive(false);
-
-
     setCards([]);
     resetGuesses();
     stopTimer();
     toggleModal(true);
     playSound('GameEnd');
-
-    // localstorage
     localStorage.setItem('lastScore', score);
     localStorage.setItem('lastTime', time);
     saveInStorage(score, time);
   }
 
   function newGame() {
-    console.log('newGame')
-
-    // -----------------------------------------------HOT KEYS PROBLEMS
     setGameActive(true);
-
     setScore(() => {return 0});
     setLevel(() => {return 1});
     refWin.current = 0;
-    refSize.current = 2; // init size
+    refSize.current = 12; // ----------------------------------------- init size
     startGame(refSize.current);
     stopTimer();
     resetTimer();

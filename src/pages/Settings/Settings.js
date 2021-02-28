@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Howl} from "howler";
 import {audioArray} from "../../assets/datas/audioArray";
 import {ThemeContext} from "../../components/App/App";
@@ -7,11 +7,19 @@ import './Settings.scss';
 
 export default function Settings(props) {
 
-  const music = new Howl({
-    src: audioArray[0].src,
-    volume: 0.5,
-    loop: true,
-  });
+  const [music, setMusic] = useState();
+
+  useEffect(() => {
+    setMusic(downloadAudio())
+  }, []);
+
+  function downloadAudio() {
+    return new Howl({
+      src: audioArray[0].src,
+      volume: 0.5,
+      loop: true,
+    });
+  }
 
   const darkTheme = useContext(ThemeContext);
   const themeStyles = getTheme(darkTheme);

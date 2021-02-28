@@ -8,7 +8,6 @@
 
   & .container {
     @include pageContainer();
-    @include pageContainerMedia();
   }
 
   & h1{
