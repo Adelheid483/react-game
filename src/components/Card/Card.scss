@@ -3,7 +3,7 @@
 
 .card {
   perspective: 1000px;
-  margin: 5px;
+  margin: 1px;
   cursor: pointer;
 
   &.selected .card-item {
@@ -14,18 +14,8 @@
 .card-item,
 .card-item-front,
 .card-item-back {
-  width: 70px;
-  height: 70px;
-
-  @media (max-width: 500px) {
-    width: 65px;
-    height: 65px;
-  }
-
-  @media (max-height: 576px) {
-    width: 65px;
-    height: 65px;
-  }
+  width: 90px;
+  height: 90px;
 }
 
 .card-item {

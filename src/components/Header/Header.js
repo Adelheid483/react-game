@@ -11,9 +11,9 @@ export default function Header() {
           <NavLink to="/" title="Home (H)">Memory Game</NavLink>
         </h1>
         <ul>
-          <li><NavLink to="/statistics" title="Statistics (Alt+S)"><i className="fas fa-list-ol"></i></NavLink></li>
-          <li><NavLink to="/hotKeys" title="HotKeys (Alt+H)"><i className="fas fa-key"></i></NavLink></li>
-          <li><NavLink to="/settings" title="Settings (Alt+A)"><i className="fas fa-cogs"></i></NavLink></li>
+          <li><NavLink to="/statistics" title="Statistics (Alt+S)"><i className="fas fa-list-ol"/></NavLink></li>
+          <li><NavLink to="/hotKeys" title="HotKeys (Alt+H)"><i className="fas fa-key"/></NavLink></li>
+          <li><NavLink to="/settings" title="Settings (Alt+A)"><i className="fas fa-cogs"/></NavLink></li>
         </ul>
       </div>
     </header>

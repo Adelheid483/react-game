@@ -14,7 +14,7 @@ import Settings from "../../pages/Settings/Settings";
 
 export const ThemeContext = React.createContext();
 
-const App = (props) => {
+const App = ({history}) => {
 
   const handleFS = useFullScreenHandle();
 
@@ -25,13 +25,13 @@ const App = (props) => {
 
   hotkeys('alt+s,alt+h,alt+a,h,g+h,r+s', function (event, handler){
     switch (handler.key) {
-      case 'alt+s': props.history.push('/statistics');
+      case 'alt+s': history.push('/statistics');
         break;
-      case 'alt+h': props.history.push('/hotKeys');
+      case 'alt+h': history.push('/hotKeys');
         break;
-      case 'alt+a': props.history.push('/settings');
+      case 'alt+a': history.push('/settings');
         break;
-      case 'h': props.history.push('/');
+      case 'h': history.push('/');
         break;
       case 'g+h': window.open('https://github.com/Adelheid483', '_blank');
         break;
@@ -51,7 +51,7 @@ const App = (props) => {
           <Route path="/hotKeys" component={HotKeys}/>
           <Route path="/settings" render={() => <Settings toggleTheme={toggleTheme} />}/>
         </ThemeContext.Provider>
-        <Footer handleFS={handleFS}/>
+        <Footer handleFS={handleFS} />
       </div>
     </FullScreen>
   )

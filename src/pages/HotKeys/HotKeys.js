@@ -18,8 +18,6 @@ export default function HotKeys() {
           <li>Statistics page: <span className="page-list-item">Alt+S</span></li>
           <li>Hot Keys page: <span className="page-list-item">Alt+H</span></li>
           <li>Settings page: <span className="page-list-item">Alt+A</span></li>
-          <li>New Game: <span className="page-list-item">N</span></li>
-          <li>End Game: <span className="page-list-item">Esc</span></li>
           <li>My GitHub: <span className="page-list-item">G+H</span></li>
           <li>RS school: <span className="page-list-item">R+S</span></li>
           <li>Fullscreen: <span className="page-list-item">F11</span></li>

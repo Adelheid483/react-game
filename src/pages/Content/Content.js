@@ -3,7 +3,6 @@ import {cardsArray} from "../../assets/datas/cardsArray";
 import {audioArray} from "../../assets/datas/audioArray";
 import {ThemeContext} from "../../components/App/App";
 import {getTheme} from "../../assets/datas/themes";
-import hotkeys from "hotkeys-js";
 import './Content.scss';
 
 import Game from "../../components/Game/Game";
@@ -13,7 +12,7 @@ import Timer from "../../components/Timer/Timer";
 
 export default function Content() {
 
-  const [size, setSize] = useState(12);  // init size
+  const [size, setSize] = useState(4);  // init size
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
@@ -28,30 +27,31 @@ export default function Content() {
   const refSize = useRef(size);
   const refWin = useRef(win);
 
-  // useEffect(() => {getGameStorage()}, []);
-  // function getGameStorage() {
-  //   if (localStorage.getItem('gameStorage') !== null) {
-  //     let gameStorage = JSON.parse(localStorage.getItem('gameStorage'));
-  //     setGameActive(() => {return gameStorage.gameActive});
-  //     setSize(() => {return gameStorage.size});
-  //     setCards(() => {return gameStorage.cards});
-  //     setSelected(() => {return gameStorage.selected});
-  //     setMatched(() => {return gameStorage.matched});
-  //     setDisabled(() => {return gameStorage.disabled});
-  //     setScore(() => {return gameStorage.score});
-  //     setWin(() => {return gameStorage.win});
-  //     setLevel(() => {return gameStorage.level});
-  //     setTime(() => {return gameStorage.time});
-  //     setTimeOn(() => {return gameStorage.timeOn});
-  //   }
-  // }
-  //
-  // useEffect(() => {
-  //   window.localStorage.setItem('gameStorage',
-  //     JSON.stringify({
-  //       gameActive, size, cards, selected, matched, disabled, score, win, level, time, timeOn
-  //     }))
-  // });
+  useEffect(() => {
+    const data = localStorage.getItem('gameStorage');
+    if (data) {
+      let gameStorage = JSON.parse(data);
+      setSize(() => {return gameStorage.size});
+      setCards(() => {return gameStorage.cards});
+      setSelected(() => {return gameStorage.selected});
+      setMatched(() => {return gameStorage.matched});
+      setDisabled(() => {return gameStorage.disabled});
+      setScore(() => {return gameStorage.score});
+      setWin(() => {return gameStorage.win});
+      setLevel(() => {return gameStorage.level});
+      setTime(() => {return gameStorage.time});
+      setTimeOn(() => {return gameStorage.timeOn});
+      setModalActive(() => {return gameStorage.modalActive});
+      setGameActive(() => {return gameStorage.gameActive});
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('gameStorage',
+      JSON.stringify({
+        size, cards, selected, matched, disabled, score, level, time, timeOn, modalActive, gameActive
+      }));
+  });
 
   useEffect(() => {checkWins()}, [win]);
   useEffect(() => {preloadImg()}, [cards]);
@@ -60,31 +60,13 @@ export default function Content() {
   useEffect(() => {
     let interval = null;
     if (timeOn) {
-      interval = setInterval(() => {setTime((prev) => prev + 10)}, 10);
+      interval = setInterval(() => {setTime((prev) => prev + 1000)}, 1000);
     } else if (!timeOn) {clearInterval(interval)}
     return () => clearInterval(interval);
   }, [timeOn]);
 
-  // -----------------------------------------------HOT KEYS PROBLEMS
-/*  useEffect(() => {
-    hotkeys('n,esc', function (event, handler){
-      switch (handler.key) {
-        case 'n':
-          event.preventDefault();
-          event.stopPropagation();
-          newGame();
-          break;
-        case 'esc':
-          event.preventDefault();
-          event.stopPropagation();
-          endGame();
-          break;
-        default: break;
-      }
-    });
-  }, []);*/
-
   function createCards(size) {
+    console.log('createCards')
     refWin.current = 0;
     const sizedArray = cardsArray
       .sort(() => 0.5 - Math.random())
@@ -113,6 +95,7 @@ export default function Content() {
   }
 
   function handleClick(id) {
+    console.log('handleClick')
     setDisabled(true);
     if (selected.length === 0) {
       setSelected([id]);
@@ -133,11 +116,13 @@ export default function Content() {
   }
 
   function resetGuesses() {
+    console.log('resetGuesses')
     setSelected([]);
     setDisabled(false);
   }
 
   function isMatch(id) {
+    console.log('isMatch')
     const firstCard = cards.find((card) => card.id === id);
     const secondCard = cards.find((card) => selected[0] === card.id);
     if (secondCard.name === firstCard.name) {
@@ -152,14 +137,18 @@ export default function Content() {
   }
 
   function correctAnswer() {
+    console.log('correctAnswer')
     setScore((score) => score + 10);
     refWin.current++;
     playSound('Correct');
   }
 
   function checkWins() {
+    console.log('checkWins')
+    console.log(refWin, 'refWin - checkWins')
+    console.log(refSize, ' refSize - checkWins')
     if (refWin.current === refSize.current) {
-      if (refWin.current === 12) { // ---------------------------------------- init size
+      if (refWin.current === cardsArray.length) { // ---------------------------------------- init size
         setTimeout(() => {endGame()}, 800);
       } else {
         setTimeout(() => {levelUp()}, 800);
@@ -169,9 +158,10 @@ export default function Content() {
   }
 
   function levelUp() {
+    console.log('levelUp')
     setLevel((level) => level + 1);
-    setSize((size) => size + 1); // ---------------------------------------- init size
-    refSize.current += 1; // ---------------------------------------- init size
+    setSize((size) => size + 4); // ---------------------------------------- init size
+    refSize.current += 4; // ---------------------------------------- init size
     playSound('LevelUp');
   }
 
@@ -188,11 +178,13 @@ export default function Content() {
   }
 
   function startGame(size) {
+    console.log('startGame')
     setMatched([]);
     setCards(createCards(size));
   }
 
   function endGame() {
+    console.log('endGame')
     if (!gameActive) return;
     setGameActive(false);
     setCards([]);
@@ -206,11 +198,12 @@ export default function Content() {
   }
 
   function newGame() {
+    console.log('newGame')
     setGameActive(true);
     setScore(() => {return 0});
     setLevel(() => {return 1});
     refWin.current = 0;
-    refSize.current = 12; // ----------------------------------------- init size
+    refSize.current = 4; // ----------------------------------------- init size
     startGame(refSize.current);
     stopTimer();
     resetTimer();
