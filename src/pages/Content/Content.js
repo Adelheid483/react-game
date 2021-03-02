@@ -24,6 +24,7 @@ export default function Content() {
   const [timeOn, setTimeOn] = useState(false);
   const [modalActive, setModalActive] = useState();
   const [gameActive, setGameActive] = useState(false);
+  const [sizeStep] = useState(4);
   const refSize = useRef(size);
   const refWin = useRef(win);
 
@@ -31,7 +32,6 @@ export default function Content() {
     const data = localStorage.getItem('gameStorage');
     if (data) {
       let gameStorage = JSON.parse(data);
-      console.log(gameStorage.win, gameStorage.refWin.current, ' - in LS')
       setSize(() => {return gameStorage.size});
       setCards(() => {return gameStorage.cards});
       setSelected(() => {return gameStorage.selected});
@@ -45,7 +45,6 @@ export default function Content() {
       setModalActive(() => {return gameStorage.modalActive});
       setGameActive(() => {return gameStorage.gameActive});
     }
-    console.log(win, refWin.current, ' - output win')
   }, []);
 
   useEffect(() => {
@@ -138,13 +137,12 @@ export default function Content() {
   function correctAnswer() {
     setScore((score) => score + 10);
     refWin.current++;
-    setWin((win) => win + 1);
     playSound('Correct');
   }
 
   function checkWins() {
     if (refWin.current === refSize.current) {
-      if (refWin.current === cardsArray.length) { // ---------------------------------------- init size
+      if (refWin.current === cardsArray.length) {
         setTimeout(() => {endGame()}, 800);
       } else {
         setTimeout(() => {levelUp()}, 800);
@@ -155,9 +153,8 @@ export default function Content() {
 
   function levelUp() {
     setLevel((level) => level + 1);
-    setWin(() => {return 0})
-    setSize((size) => size + 4); // ---------------------------------------- init size
-    refSize.current += 4; // ---------------------------------------- init size
+    setSize((size) => size + sizeStep);
+    refSize.current += sizeStep;
     playSound('LevelUp');
   }
 
@@ -196,7 +193,7 @@ export default function Content() {
     setScore(() => {return 0});
     setLevel(() => {return 1});
     refWin.current = 0;
-    refSize.current = 4; // ----------------------------------------- init size
+    refSize.current = 4;
     startGame(refSize.current);
     stopTimer();
     resetTimer();

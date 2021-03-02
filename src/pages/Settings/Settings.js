@@ -11,6 +11,8 @@ export default function Settings({toggleTheme}) {
   const [musicActive, setMusicActive] = useState(false);
   music.loop = true;
 
+  useEffect(() => {preloadMusic()}, []);
+
   useEffect(() => {musicActive ? music.play() : music.pause()},[musicActive]);
 
   useEffect(() => {
@@ -26,6 +28,8 @@ export default function Settings({toggleTheme}) {
     const audio = audioArray.find((item) => item.src === sound);
     return audio.src;
   }
+
+  function preloadMusic() {return setSound(Music)}
 
   const darkTheme = useContext(ThemeContext);
   const themeStyles = getTheme(darkTheme);
