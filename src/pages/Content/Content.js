@@ -31,6 +31,7 @@ export default function Content() {
     const data = localStorage.getItem('gameStorage');
     if (data) {
       let gameStorage = JSON.parse(data);
+      console.log(gameStorage.win, gameStorage.refWin.current, ' - in LS')
       setSize(() => {return gameStorage.size});
       setCards(() => {return gameStorage.cards});
       setSelected(() => {return gameStorage.selected});
@@ -44,12 +45,14 @@ export default function Content() {
       setModalActive(() => {return gameStorage.modalActive});
       setGameActive(() => {return gameStorage.gameActive});
     }
+    console.log(win, refWin.current, ' - output win')
   }, []);
 
   useEffect(() => {
     localStorage.setItem('gameStorage',
       JSON.stringify({
-        size, cards, selected, matched, disabled, score, level, time, timeOn, modalActive, gameActive
+        size, cards, selected, matched, disabled, score, win,
+        level, time, timeOn, modalActive, gameActive, refWin
       }));
   });
 
@@ -66,7 +69,6 @@ export default function Content() {
   }, [timeOn]);
 
   function createCards(size) {
-    console.log('createCards')
     refWin.current = 0;
     const sizedArray = cardsArray
       .sort(() => 0.5 - Math.random())
@@ -95,7 +97,6 @@ export default function Content() {
   }
 
   function handleClick(id) {
-    console.log('handleClick')
     setDisabled(true);
     if (selected.length === 0) {
       setSelected([id]);
@@ -116,13 +117,11 @@ export default function Content() {
   }
 
   function resetGuesses() {
-    console.log('resetGuesses')
     setSelected([]);
     setDisabled(false);
   }
 
   function isMatch(id) {
-    console.log('isMatch')
     const firstCard = cards.find((card) => card.id === id);
     const secondCard = cards.find((card) => selected[0] === card.id);
     if (secondCard.name === firstCard.name) {
@@ -137,16 +136,13 @@ export default function Content() {
   }
 
   function correctAnswer() {
-    console.log('correctAnswer')
     setScore((score) => score + 10);
     refWin.current++;
+    setWin((win) => win + 1);
     playSound('Correct');
   }
 
   function checkWins() {
-    console.log('checkWins')
-    console.log(refWin, 'refWin - checkWins')
-    console.log(refSize, ' refSize - checkWins')
     if (refWin.current === refSize.current) {
       if (refWin.current === cardsArray.length) { // ---------------------------------------- init size
         setTimeout(() => {endGame()}, 800);
@@ -158,8 +154,8 @@ export default function Content() {
   }
 
   function levelUp() {
-    console.log('levelUp')
     setLevel((level) => level + 1);
+    setWin(() => {return 0})
     setSize((size) => size + 4); // ---------------------------------------- init size
     refSize.current += 4; // ---------------------------------------- init size
     playSound('LevelUp');
@@ -178,13 +174,11 @@ export default function Content() {
   }
 
   function startGame(size) {
-    console.log('startGame')
     setMatched([]);
     setCards(createCards(size));
   }
 
   function endGame() {
-    console.log('endGame')
     if (!gameActive) return;
     setGameActive(false);
     setCards([]);
@@ -198,7 +192,6 @@ export default function Content() {
   }
 
   function newGame() {
-    console.log('newGame')
     setGameActive(true);
     setScore(() => {return 0});
     setLevel(() => {return 1});

@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Howl} from "howler";
 import {audioArray} from "../../assets/datas/audioArray";
 import {ThemeContext} from "../../components/App/App";
 import {getTheme} from "../../assets/datas/themes";
@@ -8,20 +7,20 @@ import Music from "../../assets/audio/tick-tack.mp3";
 
 export default function Settings({toggleTheme}) {
 
-  const [music, setMusic] = useState();
+  const [music] = useState(new Audio(setSound(Music)));
+  const [musicActive, setMusicActive] = useState(false);
+  music.loop = true;
 
-  useEffect(() => {setMusic(downloadAudio())}, []);
-  useEffect(() => {preloadMusic()}, []);
+  useEffect(() => {musicActive ? music.play() : music.pause()},[musicActive]);
 
-  function downloadAudio() {
-    return new Howl({
-      src: setSound(Music),
-      volume: 0.5,
-      loop: true,
-    });
-  }
+  useEffect(() => {
+    music.addEventListener('play', setMusicActive(false));
+    return () => {
+      music.removeEventListener('play', setMusicActive(false));
+    };
+  }, [music]);
 
-  function preloadMusic() {return setSound(Music)}
+  function toggleSound() {setMusicActive(!musicActive)}
 
   function setSound(sound) {
     const audio = audioArray.find((item) => item.src === sound);
@@ -39,8 +38,9 @@ export default function Settings({toggleTheme}) {
         <button onClick={toggleTheme} className="theme-btn">Change theme</button>
         <div className="audio-settings">
           <div>Music</div>
-          <button onClick={() => {music.play()}}><i className="fas fa-volume-up"/></button>
-          <button onClick={() => {music.stop()}}><i className="fas fa-volume-mute"/></button>
+          <button onClick={toggleSound}>
+            <i className={`fas fa-volume-up ${musicActive ? 'sound_active' : 'sound'}`} />
+          </button>
         </div>
       </div>
     </section>
