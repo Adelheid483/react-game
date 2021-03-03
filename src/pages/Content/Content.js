@@ -28,7 +28,6 @@ export default function Content() {
   const [gameActive, setGameActive] = useState(false);
   const [sizeStep] = useState(4);
   const refSize = useRef(size);
-  const refWin = useRef(win);
 
   useEffect(() => {
     const data = localStorage.getItem('gameStorage');
@@ -55,7 +54,7 @@ export default function Content() {
     localStorage.setItem('gameStorage',
       JSON.stringify({
         size, cards, pics, radioBtn, selected, matched, disabled, score, win,
-        level, time, timeOn, modalActive, gameActive, refWin
+        level, time, timeOn, modalActive, gameActive,
       }));
   });
 
@@ -72,7 +71,6 @@ export default function Content() {
   }, [timeOn]);
 
   function createCards(size) {
-    refWin.current = 0;
     const sizedArray = pics
       .sort(() => 0.5 - Math.random())
       .slice(0, size);
@@ -140,13 +138,13 @@ export default function Content() {
 
   function correctAnswer() {
     setScore((score) => score + 10);
-    refWin.current++;
+    setWin((win) => win + 1);
     playSound('Correct');
   }
 
   function checkWins() {
-    if (refWin.current === refSize.current) {
-      if (refWin.current === pics.length) {
+    if (win === refSize.current) {
+      if (win === pics.length) {
         setTimeout(() => {endGame()}, 800);
       } else {
         setTimeout(() => {levelUp()}, 800);
@@ -156,6 +154,7 @@ export default function Content() {
   }
 
   function levelUp() {
+    setWin(() => {return 0});
     setLevel((level) => level + 1);
     setSize((size) => size + sizeStep);
     refSize.current += sizeStep;
@@ -183,6 +182,7 @@ export default function Content() {
     if (!gameActive) return;
     setGameActive(false);
     setCards([]);
+    setWin(() => {return 0});
     resetGuesses();
     stopTimer();
     toggleModal(true);
@@ -195,8 +195,8 @@ export default function Content() {
   function newGame() {
     setGameActive(true);
     setScore(() => {return 0});
+    setWin(() => {return 0});
     setLevel(() => {return 1});
-    refWin.current = 0;
     refSize.current = 4;
     startGame(refSize.current);
     stopTimer();
@@ -230,7 +230,7 @@ export default function Content() {
           endGame={endGame}
           level={level}
           score={score}
-          win={refWin.current}
+          win={win}
           time={time}
           radioBtn={radioBtn}
           setRadioBtn={setRadioBtn}

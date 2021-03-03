@@ -11,8 +11,8 @@ export default function Toolbar({newGame, endGame, level, score, win, time, radi
     <div className="toolbar">
 
       <div className="toolbar-btn">
-        <button onClick={() => newGame()} title="N">New Game</button>
-        <button onClick={() => endGame()} title="Esc">End Game</button>
+        <button onClick={() => newGame()}>New Game</button>
+        <button onClick={() => endGame()}>End Game</button>
       </div>
 
       <form className="toolbar-radio" >
