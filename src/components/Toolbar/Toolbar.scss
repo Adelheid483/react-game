@@ -5,14 +5,35 @@
   @include contentComponent();
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  display: flex;
+  justify-content: space-evenly;
 }
-
 .toolbar-btn {
   display: flex;
   flex-direction: column;
 
   & button {
     @include buttons($color-red, $color-black);
+  }
+}
+
+.toolbar-radio {
+  display: flex;
+  flex-direction: column;
+
+  & div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  & label {
+    @include fontSettings(16px, bold)
+  }
+
+  & input {
+    cursor: pointer;
+    background-color: yellow;
   }
 }
 

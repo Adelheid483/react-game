@@ -44,6 +44,11 @@ export default function Footer({handleFS}) {
               If the two cards match, your scores 10 points. If cards do not match, you are lost 2 points and the cards are turned back over.
               Good luck!
             </p>
+            <strong>How to use:</strong>
+            <p>
+              Choose set of the pics and press New Game. Cute pics is default set. Press End Game to finish session and send your score to Statistics.
+              You can change color theme on Settings page.
+            </p>
           </div>
         </Modal>
       </div>

@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FullScreen, useFullScreenHandle} from "react-full-screen";
 import {Route} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 import hotkeys from "hotkeys-js";
+import Music from "../../assets/audio/tick-tack.mp3";
+import {audioArray} from "../../assets/datas/audioArray";
 import './App.scss';
 
 import Header from "../Header/Header";
@@ -17,10 +19,24 @@ export const ThemeContext = React.createContext();
 const App = ({history}) => {
 
   const handleFS = useFullScreenHandle();
-
   const [darkTheme, setDarkTheme] = useState(true);
-  function toggleTheme() {
-    setDarkTheme((prevTheme) => !prevTheme);
+  const [music] = useState(new Audio(setSound(Music)));
+  const [musicActive, setMusicActive] = useState(false);
+  music.loop = true;
+
+  useEffect(() => {preloadMusic()}, []);
+
+  useEffect(() => {musicActive ? music.play() : music.pause()},[musicActive]);
+
+  function toggleTheme() {setDarkTheme((prevTheme) => !prevTheme)}
+
+  function toggleSound() {setMusicActive(!musicActive)}
+
+  function preloadMusic() {return setSound(Music)}
+
+  function setSound(sound) {
+    const audio = audioArray.find((item) => item.src === sound);
+    return audio.src;
   }
 
   hotkeys('alt+s,alt+h,alt+a,h,g+h,r+s', function (event, handler){
@@ -49,7 +65,7 @@ const App = ({history}) => {
           <Route path="/" exact component={Content}/>
           <Route path="/statistics" component={Statistics}/>
           <Route path="/hotKeys" component={HotKeys}/>
-          <Route path="/settings" render={() => <Settings toggleTheme={toggleTheme} />}/>
+          <Route path="/settings" render={() => <Settings toggleTheme={toggleTheme} toggleSound={toggleSound} musicActive={musicActive}/>}/>
         </ThemeContext.Provider>
         <Footer handleFS={handleFS} />
       </div>

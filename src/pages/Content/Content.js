@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
-import {cardsArray} from "../../assets/datas/cardsArray";
+import {cardsArray_1} from "../../assets/datas/cardsArray_1";
 import {audioArray} from "../../assets/datas/audioArray";
 import {ThemeContext} from "../../components/App/App";
 import {getTheme} from "../../assets/datas/themes";
@@ -14,6 +14,8 @@ export default function Content() {
 
   const [size, setSize] = useState(4);  // init size
   const [cards, setCards] = useState([]);
+  const [pics, setPics] = useState(cardsArray_1);
+  const [radioBtn, setRadioBtn] = useState('set 1');
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
   const [disabled, setDisabled] = useState(false);
@@ -34,6 +36,8 @@ export default function Content() {
       let gameStorage = JSON.parse(data);
       setSize(() => {return gameStorage.size});
       setCards(() => {return gameStorage.cards});
+      setPics(() => {return gameStorage.pics});
+      setRadioBtn(() => {return gameStorage.radioBtn});
       setSelected(() => {return gameStorage.selected});
       setMatched(() => {return gameStorage.matched});
       setDisabled(() => {return gameStorage.disabled});
@@ -50,7 +54,7 @@ export default function Content() {
   useEffect(() => {
     localStorage.setItem('gameStorage',
       JSON.stringify({
-        size, cards, selected, matched, disabled, score, win,
+        size, cards, pics, radioBtn, selected, matched, disabled, score, win,
         level, time, timeOn, modalActive, gameActive, refWin
       }));
   });
@@ -69,7 +73,7 @@ export default function Content() {
 
   function createCards(size) {
     refWin.current = 0;
-    const sizedArray = cardsArray
+    const sizedArray = pics
       .sort(() => 0.5 - Math.random())
       .slice(0, size);
     const gameArray = sizedArray
@@ -142,7 +146,7 @@ export default function Content() {
 
   function checkWins() {
     if (refWin.current === refSize.current) {
-      if (refWin.current === cardsArray.length) {
+      if (refWin.current === pics.length) {
         setTimeout(() => {endGame()}, 800);
       } else {
         setTimeout(() => {levelUp()}, 800);
@@ -214,6 +218,10 @@ export default function Content() {
   const darkTheme = useContext(ThemeContext);
   const themeStyles = getTheme(darkTheme);
 
+  function choosePics(pics) {
+    setPics(() => pics)
+  }
+
   return (
     <section className="content" style={themeStyles}>
       <div className="container">
@@ -224,6 +232,9 @@ export default function Content() {
           score={score}
           win={refWin.current}
           time={time}
+          radioBtn={radioBtn}
+          setRadioBtn={setRadioBtn}
+          choosePics={choosePics}
         />
         <Game
           cards={cards}

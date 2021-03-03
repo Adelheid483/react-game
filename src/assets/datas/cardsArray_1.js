@@ -1,4 +1,4 @@
-export const cardsArray = [
+export const cardsArray_1 = [
   {
     'name': 'apple',
     'img': 'img/apple.png',

@@ -11,3 +11,18 @@
     margin: 0 auto;
   }
 }
+
+.content_pics {
+  @include contentComponent();
+  border-radius: 0;
+
+  & button {
+    @include buttons($color-grey, $color-yellow)
+  }
+
+  & button.pics_active {
+    @include buttons($color-yellow, $color-grey)
+  }
+}
+
+
